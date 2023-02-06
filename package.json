@@ -2,47 +2,53 @@
   "name": "node-typescript-boilerplate",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "node build/index.js",
-    "dev": "tsc-watch --onSuccess \"node ./build/index.js\"",
-    "build": "tsc",
-    "postinstall": "npm run build",
+    "start": "npm run build && pm2 start ecosystem.config.json --no-daemon",
+    "dev": "npm run lint && nodemon ./src/index.ts --env NODE_ENV=development",
+    "test": "jest",
+    "build": "npm run lint && tsc -p . && cp .env.dev ./build/.env.dev",
+    "start:test": "node build/src/index.js --env NODE_ENV=test",
+    "start:stag": "node build/src/index.js --env NODE_ENV=staging",
+    "build:test": "npm run lint && tsc -p . && cp .env.test ./build/.env.test",
+    "build:prod": "npm run lint && tsc -p . && cp .env.prod ./build/.env.prod",
+    "build:stag": "npm run lint && tsc -p . && cp .env.stag ./build/.env.stag",
+    "test:watch": "jest --watchAll",
+    "coverage": "jest --coverage",
     "lint": "eslint src/**/*.{js,ts,json}",
     "lint:fix": "eslint --fix src/**/*.{js,ts,json}",
     "format": "prettier --write src/**/*.{js,ts,json}",
-    "check-types": "tsc -p tsconfig.json --noEmit"
+    "prepare": "husky install",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "precommit": "npm run lint:fix && npm run format",
+    "prepush": "npm run lint"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "pm2": "^5.2.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.15",
     "@types/node": "^18.11.17",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.2",
-    "lint-staged": "^13.1.0",
-    "tsc-watch": "^6.0.0",
+    "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.3",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
-  },
-  "lint-staged": {
-    "src/**/*.{js,ts,json}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }

@@ -1,12 +1,14 @@
 {
   "env": {
     "es2021": true,
-    "node": true
+    "node": true,
+    "jest/globals": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
+    "plugin:jest/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -15,7 +17,7 @@
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
-  "plugins": ["import", "@typescript-eslint", "prettier"],
+  "plugins": ["import", "@typescript-eslint", "jest", "prettier"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",

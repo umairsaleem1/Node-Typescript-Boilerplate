@@ -3,4 +3,5 @@ yarn.lock
 package-lock.json
 # Ignore artifacts:
 build
+dist
 coverage
